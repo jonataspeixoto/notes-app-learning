@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 
 export default function App() {
   const [state, setState] = useState('reading')
-  const [note, setNote] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ligula vitae consectetur volutpat. Proin vestibulum, ligula eu ultricies gravida, nibh ligula dapibus nunc, non condimentum nunc augue ullamcorper est. Aliquam pellentesque nunc sit amet venenatis luctus. Duis eget tempus tortor, id feugiat urna. Etiam porta dui ornare feugiat efficitur. Ut sit amet lectus porttitor, venenatis quam in, rhoncus velit. Aenean dignissim lacus sit amet vulputate dictum.\nInteger tempus magna in bibendum vestibulum. Morbi congue nulla quis mauris bibendum, eu viverra quam posuere. Maecenas dapibus hendrerit vehicula. In tempor ac ex vel dictum. Phasellus ornare, enim in pharetra fermentum, leo erat egestas leo, in egestas quam nisi at orci. Phasellus et turpis hendrerit, iaculis turpis a, tincidunt leo. Nulla hendrerit ultrices laoreet. Morbi in dolor id quam venenatis placerat sit amet vitae mauris. Aenean aliquet orci eget dignissim egestas. Aenean eget mi ut eros rutrum rhoncus. Pellentesque at erat risus. Duis sodales condimentum metus a congue. Etiam non diam ut lorem dictum facilisis. Sed eu tempor nunc, et condimentum sapien. Donec tempor tristique massa id euismod.')
-
+  const [note, setNote] = useState('')
 
   if(state == 'reading'){
     return (
@@ -14,11 +13,18 @@ export default function App() {
         <View style={styles.header}>
           <Text style={{textAlign:'center', color:'white'}}>Notes App</Text>
         </View>
-        <View style={{padding: 20}}>
-          <Text style={styles.note}>{note}</Text>
-        </View>
-        <TouchableOpacity onPress={() => setState('updating')} style={styles.btnNote}>
-          <Text style={styles.btnNoteText}>+</Text>
+        {
+          (note != '') ? 
+          <View style={{padding: 20}}>
+            <Text style={styles.note}>{note}</Text>
+          </View>
+          :
+          <View style={{padding: 20}}>
+            <Text style={{opacity:0.3}}>No notes found :(</Text>
+          </View>
+        }
+        <TouchableOpacity onPress={() => setState('updating')} style={styles.btnSave}>
+          <Text style={styles.btnNoteText}>Edit</Text>
         </TouchableOpacity>
       </View>
     );
@@ -29,7 +35,7 @@ export default function App() {
         <View style={styles.header}>
           <Text style={{textAlign:'center', color:'white'}}>Notes App</Text>
         </View>
-        <TextInput style={{textAlignVertical:'top', padding:20, height:300}} onChangeText={(text) => setNote(text)} multiline={true} numberOfLines={5} value={note}></TextInput>
+        <TextInput style={{textAlign:'justify', fontSize:13, textAlignVertical:'top', padding:20, height:300}} onChangeText={(text) => setNote(text)} multiline={true} numberOfLines={5} value={note}></TextInput>
         <TouchableOpacity onPress={() => setState('reading')} style={styles.btnSave}>
           <Text style={styles.btnNoteText}>Save</Text>
         </TouchableOpacity>
@@ -54,7 +60,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     backgroundColor: '#069',
-    borderRadius: 25
+    borderRadius: 25,
+    textAlign:'justify'
   },
   btnNoteText:{
     color: 'white',
