@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
 export default function App() {
   const [state, setState] = useState('reading')
@@ -29,8 +29,7 @@ export default function App() {
         <View style={styles.header}>
           <Text style={{textAlign:'center', color:'white'}}>Notes App</Text>
         </View>
-        <View style={{padding: 20}}>
-        </View>
+        <TextInput style={{textAlignVertical:'top', padding:20, height:300}} onChangeText={(text) => setNote(text)} multiline={true} numberOfLines={5} value={note}></TextInput>
         <TouchableOpacity onPress={() => setState('reading')} style={styles.btnSave}>
           <Text style={styles.btnNoteText}>Save</Text>
         </TouchableOpacity>
