@@ -13,48 +13,7 @@ export default function App() {
     const [currentNoteId, setCurrentNoteId] = useState('');
     const [currentNoteTitle, setCurrentNoteTitle] = useState('');
     const [currentNoteContent, setCurrentNoteContent] = useState('');
-    const [notes, setNotes] = useState([
-        {
-            id: uuid.v4(),
-            title: titleNote + 0,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        }, 
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        },
-        {
-            id: uuid.v4(),
-            title: titleNote + 1,
-            content: contentNote
-        }
-    ]);
+    const [notes, setNotes] = useState([]);
 
     const save = async () => {
         try {
@@ -67,9 +26,11 @@ export default function App() {
     const load = async () => {
         try {
             let notes = JSON.parse(await AsyncStorage.getItem('notes'));
-
+            
             if (notes !== null) {
-                this.notes = notes;
+                setNotes(notes);
+            } else {
+                setNotes([])
             }
         } catch (err) {
             alert(err);
@@ -122,7 +83,7 @@ export default function App() {
             <View>
                 <StatusBar style='light'></StatusBar>
                 <View style={styles.header}>
-                    <TextInput autoFocus={true} style={styles.txtHeader} onChangeText={(text) => setCurrentNoteTitle(text)} multiline={true} numberOfLines={1} value={currentNoteTitle}></TextInput>
+                    <TextInput placeholder='Enter the title of your note' placeholderTextColor='#d2d2d2' autoFocus={true} style={styles.txtHeader} onChangeText={(text) => setCurrentNoteTitle(text)} multiline={true} numberOfLines={1} value={currentNoteTitle}></TextInput>
                 </View>
             </View>
         )
@@ -146,8 +107,8 @@ export default function App() {
                     }
                     onLongPress={
                         () => {
-                            // console.log("LongPress")
-                            setState('writing'); setCurrentNoteIndex(note);
+                            console.log("LongPress")
+                            // setState('writing'); setCurrentNoteIndex(note);
                         }
                     }
                     style={styles.noteItem}
@@ -225,7 +186,7 @@ export default function App() {
         return (
             <View style={{ flex: 1 }}>
                 {loadEditableHeader()}
-                <TextInput autoFocus={true} style={styles.note} onChangeText={(text) => setCurrentNoteContent(text)} multiline={true} numberOfLines={5} value={currentNoteContent}></TextInput>
+                <TextInput placeholder='Write your note here' autoFocus={true} style={styles.note} onChangeText={(text) => setCurrentNoteContent(text)} multiline={true} numberOfLines={5} value={currentNoteContent}></TextInput>
                 <TouchableOpacity onPress={() => { setState('reading'); saveNote(); }} style={styles.btnSave}>
                     <Text style={styles.btnNoteText}>Save</Text>
                 </TouchableOpacity>
@@ -254,7 +215,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlignVertical: 'top',
         padding: 20,
-        height: 300
+        maxHeight: 300
     },
     btnNote: {
         position: 'absolute',
